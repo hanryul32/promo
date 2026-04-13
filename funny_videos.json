@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://www.youtube.com/watch?v=9bZkp7q19f0",
+    "caption": "江南Style永遠的神！韓流的驕傲 🎉 你還記得第一次聽到這首歌嗎？",
+    "active": true
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=QH2-TGUlwu4",
+    "caption": "Nyan Cat療癒宇宙 🌈 看一遍保證心情變好！",
+    "active": true
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "caption": "這首歌你一定聽過～點開有驚喜 😏",
+    "active": true
+  },
+  {
+    "url": "https://youtu.be/REPLACE_WITH_REAL_URL",
+    "caption": "好笑片段私藏分享！今天的快樂來源就是這個 😄",
+    "active": false
+  },
+  {
+    "url": "https://youtu.be/REPLACE_WITH_REAL_URL",
+    "caption": "這個真的笑死，必看！🤣",
+    "active": false
+  },
+  {
+    "url": "https://youtu.be/REPLACE_WITH_REAL_URL",
+    "caption": "今日療癒影片，週末來點輕鬆的 ✨",
+    "active": false
+  }
+]
