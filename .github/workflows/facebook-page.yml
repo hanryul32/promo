@@ -1,0 +1,48 @@
+﻿name: Daily Facebook Page Update
+
+on:
+  schedule:
+    - cron: '30 1 * * *'   # 台北 09:30 左右
+  workflow_dispatch:
+
+jobs:
+  post-to-facebook:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate latest site content
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ICHANNELS_AFFILIATE_ID: af000094185
+        run: python run_campaign.py
+
+      - name: Create Facebook page draft / post
+        env:
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+        run: python facebook_page_poster.py
+
+      - name: Deploy site update
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          publish_branch: gh-pages
+          commit_message: 'chore: daily site + facebook prep ${{ github.run_id }}'
+          force_orphan: false
