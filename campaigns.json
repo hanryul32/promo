@@ -1,7 +1,7 @@
 {
   "affiliate_id": "af000094185",
   "affiliate_email": "masatsai032@gmail.com",
-  "last_updated": "2026-04-13",
+  "last_updated": "2026-04-14",
   "note": "以下品牌均為 iChannels 通路王官方合作廣告主（來源: contactus-malist.php）",
   "campaigns": [
     {
@@ -13,7 +13,16 @@
       "platform": "momo",
       "url": "https://www.momoshop.com.tw/main/Main.jsp",
       "uid": "momo-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&fit=crop&q=80",
+      "badge": "🔥 本日熱搜",
+      "highlight": "台灣最大購物平台，百萬商品任你選，限時折扣天天有",
+      "tags": [
+        "限時折扣",
+        "滿額免運",
+        "紅利積點"
+      ],
+      "cta_text": "立即逛 momo 特賣"
     },
     {
       "id": "C002",
@@ -24,7 +33,16 @@
       "platform": "shopee",
       "url": "https://shopee.tw/",
       "uid": "shopee-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&fit=crop&q=80",
+      "badge": "⚡ 閃購中",
+      "highlight": "蝦皮幣回饋＋天天免運，官方商城正品保障",
+      "tags": [
+        "天天免運",
+        "蝦皮幣回饋",
+        "閃購活動"
+      ],
+      "cta_text": "前往蝦皮搶好物"
     },
     {
       "id": "C003",
@@ -35,7 +53,16 @@
       "platform": "books",
       "url": "https://www.books.com.tw/",
       "uid": "books-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&fit=crop&q=80",
+      "badge": "📚 書迷必逛",
+      "highlight": "全台最大網路書店，超商取貨免運，文具文創一站搞定",
+      "tags": [
+        "超商取貨",
+        "新書特惠",
+        "文具文創"
+      ],
+      "cta_text": "逛博客來好書"
     },
     {
       "id": "C004",
@@ -46,7 +73,16 @@
       "platform": "dyson",
       "url": "https://www.dyson.com.tw/",
       "uid": "dyson-official-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&fit=crop&q=80",
+      "badge": "✨ 官網獨家",
+      "highlight": "官網購買享延長保固＋免費配件，台灣公司貨正品",
+      "tags": [
+        "延長保固",
+        "免費配件",
+        "台灣公司貨"
+      ],
+      "cta_text": "前往 Dyson 官網"
     },
     {
       "id": "C005",
@@ -57,7 +93,16 @@
       "platform": "xiaomi",
       "url": "https://www.mi.com/tw/",
       "uid": "xiaomi-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&fit=crop&q=80",
+      "badge": "📱 高CP新品",
+      "highlight": "高CP值科技生活，智慧家居一次到位，官網直購最優惠",
+      "tags": [
+        "高CP值",
+        "智慧家居",
+        "穿戴裝置"
+      ],
+      "cta_text": "逛小米官網新品"
     },
     {
       "id": "C006",
@@ -68,7 +113,16 @@
       "platform": "nike",
       "url": "https://www.nike.com/tw/",
       "uid": "nike-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&fit=crop&q=80",
+      "badge": "👟 限量配色",
+      "highlight": "Nike官網獨家限量款，NikePlus會員享折扣＋免費配送",
+      "tags": [
+        "限量配色",
+        "NikePlus回饋",
+        "免費配送"
+      ],
+      "cta_text": "搶 Nike 限量款"
     },
     {
       "id": "C007",
@@ -79,7 +133,16 @@
       "platform": "hahow",
       "url": "https://hahow.in/",
       "uid": "hahow-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&fit=crop&q=80",
+      "badge": "🎓 終身學習",
+      "highlight": "買一次終身觀看，台灣最大線上學習平台，超過千堂好課",
+      "tags": [
+        "終身觀看",
+        "職場技能",
+        "設計程式"
+      ],
+      "cta_text": "看 Hahow 精選課程"
     },
     {
       "id": "C008",
@@ -90,7 +153,16 @@
       "platform": "klook",
       "url": "https://www.klook.com/zh-TW/",
       "uid": "klook-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=600&fit=crop&q=80",
+      "badge": "✈️ 免費取消",
+      "highlight": "手機即時兌換，訂景點門票最安心，可免費取消",
+      "tags": [
+        "即時兌換",
+        "可免費取消",
+        "日韓精選"
+      ],
+      "cta_text": "探索 Klook 旅遊優惠"
     },
     {
       "id": "C009",
@@ -101,7 +173,16 @@
       "platform": "kkday",
       "url": "https://www.kkday.com/zh-tw/",
       "uid": "kkday-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&fit=crop&q=80",
+      "badge": "🗺️ 早鳥優惠",
+      "highlight": "台灣在地特色體驗＋日韓行程，早鳥訂購最超值",
+      "tags": [
+        "在地體驗",
+        "早鳥折扣",
+        "機場接送"
+      ],
+      "cta_text": "訂 KKday 行程"
     },
     {
       "id": "C010",
@@ -112,7 +193,16 @@
       "platform": "agoda",
       "url": "https://www.agoda.com/zh-tw/",
       "uid": "agoda-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&fit=crop&q=80",
+      "badge": "🏨 最低價保證",
+      "highlight": "全球2百萬間飯店比價，最低價保證，即訂即享折扣",
+      "tags": [
+        "最低價保證",
+        "台日泰熱門",
+        "即訂即享"
+      ],
+      "cta_text": "查 Agoda 最低房價"
     },
     {
       "id": "C011",
@@ -123,7 +213,16 @@
       "platform": "kuaiche",
       "url": "https://www.kuaiche.com.tw/",
       "uid": "kuaiche-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&fit=crop&q=80",
+      "badge": "🎁 送禮首選",
+      "highlight": "台灣人氣伴手禮No.1，A1辣味肉乾脆到掉屑，自用送禮都適合",
+      "tags": [
+        "伴手禮首選",
+        "A1辣味",
+        "年節送禮"
+      ],
+      "cta_text": "選快車肉乾好禮"
     },
     {
       "id": "C012",
@@ -134,7 +233,16 @@
       "platform": "brands",
       "url": "https://www.brandsworld.com.tw/",
       "uid": "brands-main-001",
-      "active": true
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?w=600&fit=crop&q=80",
+      "badge": "💊 百年品牌",
+      "highlight": "百年品牌信任保證，雞精＋膠原蛋白飲，定期訂購享折扣",
+      "tags": [
+        "百年品牌",
+        "定期訂購折扣",
+        "媽媽必備"
+      ],
+      "cta_text": "看白蘭氏保健組合"
     }
   ]
 }

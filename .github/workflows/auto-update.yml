@@ -1,11 +1,11 @@
-﻿name: Auto Update Affiliate Site
+﻿name: "網站更新 — Auto Update Site"
 
 on:
   schedule:
-    - cron: '0 */4 * * *'   # every 4 hours UTC (= 台北 08/12/16/20/00/04)
-  workflow_dispatch:          # GitHub UI 手動觸發按鈕
+    - cron: '0 */4 * * *'   # 每 4 小時更新一次（台北 08/12/16/20/00/04）
+  workflow_dispatch:          # GitHub UI 手動觸發
   push:
-    branches: [ main ]        # 推 code 時也立即更新
+    branches: [ main ]        # 推送 code 時立即更新
 
 jobs:
   update:

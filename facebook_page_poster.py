@@ -15,17 +15,36 @@ FACEBOOK_PAGE_ACCESS_TOKEN = os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", "")
 
 def load_latest_records():
     files = sorted(glob.glob(os.path.join(LOGS_DIR, "log_*.json")))
-    if not files:
-        return []
-    with open(files[-1], "r", encoding="utf-8") as f:
-        return json.load(f)
+    if files:
+        with open(files[-1], "r", encoding="utf-8") as f:
+            return json.load(f)
+    # Fallback: 從 campaigns.json 直接讀取（獨立路徑，不需先跑 run_campaign.py）
+    campaigns_path = os.path.join(BASE_DIR, "campaigns.json")
+    if os.path.exists(campaigns_path):
+        with open(campaigns_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return [
+            {
+                "brand": c["brand"],
+                "category": c["category"],
+                "copy": c.get("desc", ""),
+                "affiliate_link": c.get("url", ""),
+                "highlight": c.get("highlight", ""),
+            }
+            for c in data.get("campaigns", []) if c.get("active", True)
+        ]
+    return []
 
 
 def build_post(records):
     top = records[:3]
     items = []
     for record in top:
-        items.append(f"- {record['brand']}")
+        hl = (record.get("highlight") or record.get("copy", ""))[:35]
+        line = f"- {record['brand']}"
+        if hl:
+            line += f"：{hl}"
+        items.append(line)
 
     intro = "今天幫大家整理了幾個我自己會先點開看的優惠，先把值得逛的放在這裡，省點比價時間。"
     body = "\n".join(items)

@@ -236,21 +236,29 @@ def generate_html_page(records: list) -> None:
             category_id = record["category"].replace("/", "_")
             favicon = f"https://www.google.com/s2/favicons?domain={brand_domain(record['brand'])}&sz=128"
             hero_image = record.get("asset_image") or record.get("image") or favicon
+            card_badge = record.get("badge", "")
+            card_tags = record.get("tags") or ["官方通路", "熱門優惠", "每日整理"]
+            card_highlight = record.get("highlight", "")
+            card_cta = record.get("cta_text") or "立即查看優惠"
+            badge_html = f'<span class="promo-badge">{escape_html(card_badge)}</span>' if card_badge else ""
+            tags_html = "".join(f"<span>{escape_html(t)}</span>" for t in card_tags)
+            highlight_html = f'<p class="card-highlight">💡 {escape_html(card_highlight)}</p>' if card_highlight else ""
 
             cards_html += f"""
   <article class="card" id="{category_id}" itemscope itemtype="https://schema.org/Product">
     <div class="card-cover" style="--card-color:{card_color}">
-      <div class="cover-glow"></div>
-      <img class="cover-image" src="{hero_image}" alt="{safe_brand}" loading="lazy" onerror="this.src='{favicon}'">
+      <img class="cover-bg-img" src="{hero_image}" alt="" loading="lazy" aria-hidden="true" onerror="this.style.display='none'">
+      <div class="cover-scrim"></div>
+      <div class="cover-top">
+        <img class="cover-icon" src="{favicon}" alt="{safe_brand}" loading="lazy" onerror="this.style.display='none'">
+        {badge_html}
+      </div>
       <span class="cat-pill">{card_icon} {safe_category}</span>
     </div>
     <div class="card-body">
       <h2 itemprop="name">{safe_brand}</h2>
-      <div class="mini-tags">
-        <span>官方通路</span>
-        <span>熱門優惠</span>
-        <span>每日整理</span>
-      </div>
+      <div class="mini-tags">{tags_html}</div>
+      {highlight_html}
       <div class="copy" itemprop="description">{safe_copy}</div>
       <div class="trust-row">
         <span>✅ 真品保障</span>
@@ -258,7 +266,7 @@ def generate_html_page(records: list) -> None:
         <span>💳 定價透明</span>
       </div>
       <a class="btn" href="{record['affiliate_link']}" target="_blank" rel="sponsored noopener">
-        立即查看優惠
+        {card_cta}
       </a>
     </div>
   </article>"""
@@ -326,10 +334,14 @@ nav.cats a:hover{{transform:translateY(-1px)}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.4rem}}
 .card{{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 8px 28px rgba(30,41,59,.08);transition:transform .18s ease, box-shadow .18s ease}}
 .card:hover{{transform:translateY(-4px);box-shadow:0 16px 34px rgba(30,41,59,.12)}}
-.card-cover{{position:relative;min-height:150px;padding:1rem;display:flex;align-items:flex-start;justify-content:space-between;background:linear-gradient(135deg,var(--card-color),#ffb36b)}}
-.cover-glow{{position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.16)}}
-.cover-image{{position:relative;width:78px;height:78px;object-fit:contain;border-radius:16px;background:#fff;padding:10px;box-shadow:0 10px 22px rgba(0,0,0,.14)}}
-.cat-pill{{position:relative;display:inline-flex;align-items:center;gap:.35rem;padding:.38rem .78rem;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:.76rem;font-weight:700;backdrop-filter:blur(6px)}}
+.card-cover{{position:relative;min-height:165px;padding:.85rem 1rem;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,var(--card-color),#ffb36b);overflow:hidden}}
+.cover-bg-img{{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.72}}
+.cover-scrim{{position:absolute;inset:0;background:linear-gradient(160deg,rgba(0,0,0,.3) 0%,rgba(0,0,0,.56) 100%);z-index:1}}
+.cover-top{{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:.4rem}}
+.cover-icon{{width:52px;height:52px;object-fit:contain;border-radius:12px;background:rgba(255,255,255,.94);padding:6px;box-shadow:0 4px 14px rgba(0,0,0,.18)}}
+.promo-badge{{background:rgba(255,228,0,.95);color:#7a1818;font-size:.69rem;font-weight:800;padding:.25rem .65rem;border-radius:999px;letter-spacing:.02em;white-space:nowrap}}
+.cat-pill{{position:relative;z-index:2;display:inline-flex;align-items:center;gap:.35rem;padding:.38rem .78rem;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:.76rem;font-weight:700;backdrop-filter:blur(6px);align-self:flex-end}}
+.card-highlight{{font-size:.82rem;color:#d61f69;font-weight:700;margin-bottom:.55rem;background:#fff5f7;border-left:3px solid #e83e70;padding:.3rem .6rem;border-radius:0 8px 8px 0}}
 .card-body{{padding:1rem 1rem 1.1rem}}
 .card h2{{font-size:1.08rem;line-height:1.45;color:#1f2937;margin-bottom:.55rem}}
 .mini-tags{{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.65rem}}
@@ -445,7 +457,12 @@ def main():
             "category":      c["category"],
             "copy":          copy,
             "affiliate_link": link,
-            "timestamp":     datetime.now().isoformat()
+            "timestamp":     datetime.now().isoformat(),
+            "image":         c.get("image", ""),
+            "badge":         c.get("badge", ""),
+            "highlight":     c.get("highlight", ""),
+            "tags":          c.get("tags", []),
+            "cta_text":      c.get("cta_text", ""),
         })
         print()
 
