@@ -32,10 +32,12 @@ WEBHOOK_URL          = os.environ.get("WEBHOOK_URL", "")
 CAMPAIGNS_FILE = os.path.join(BASE_DIR, "campaigns.json")
 OUTPUT_DIR     = os.path.join(BASE_DIR, "output")
 LOGS_DIR       = os.path.join(BASE_DIR, "logs")
-HTML_FILE      = os.path.join(OUTPUT_DIR, "index.html")
+LIFE_DIR       = os.path.join(OUTPUT_DIR, "life")
+HTML_FILE      = os.path.join(LIFE_DIR, "index.html")
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(LOGS_DIR,   exist_ok=True)
+os.makedirs(LIFE_DIR,   exist_ok=True)
 
 # ── Gemini 初始化（有 Key 才啟用）──────────────────────────────────────────
 ai_client = None
@@ -161,7 +163,7 @@ def generate_html_page(records: list) -> None:
         """生成更像人氣購物推薦站的 SEO 靜態 HTML + Sitemap + robots。"""
         now_str = datetime.now().strftime("%Y/%m/%d %H:%M")
         iso_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+08:00")
-        site_url = "https://masa032.github.io/ichannels-promo/"
+        site_url = "https://HanRyul.github.io/promo/life/"
         facebook_page_url = "https://www.facebook.com/gogo.buy.it/"
 
         category_colors = {
@@ -295,14 +297,14 @@ def generate_html_page(records: list) -> None:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="嚴選合作品牌最新優惠，天天更新，幫你找到最值得入手的好物。涵蓋 3C家電、美食保健、服飾精品與旅遊票券。">
-<meta name="keywords" content="momo優惠,蝦皮折扣,Dyson特賣,Nike官網,Klook優惠,Agoda訂房,博客來折扣,好物推薦,省錢情報">
-<meta property="og:title" content="每日精選好物特惠">
-<meta property="og:description" content="嚴選合作品牌最新優惠，天天更新，幫你找到最值得入手的好物。">
+<meta name="description" content="韓律的生活美學筆記｜分享日常穿搭、喜歡的物品、照片與心情。歡迎一起享受美好的小事。">
+<meta name="keywords" content="韓律,Han Ryul,생활,穿搭日誌,好物分享,生活美學,日常記錄">
+<meta property="og:title" content="韓律 Han Ryul | 生活美學與日常分享">
+<meta property="og:description" content="韓律的生活美學筆記｜分享日常穿搭、喜歡的物品、照片與心情。">
 <meta property="og:type" content="website">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="{site_url}index.html">
-<title>每日精選好物特惠 | {datetime.now().strftime("%Y/%m")}</title>
+<title>韓律 Han Ryul | 生活美學與日常分享</title>
 <script type="application/ld+json">{jsonld}</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
@@ -358,38 +360,38 @@ footer a{{color:#d61f69;font-weight:700}}
 </head>
 <body>
 <header>
-  <h1>🛍️ 每日精選好物特惠</h1>
+  <h1>韓律 Han Ryul</h1>
   <div class="hero-sub">
-    <p class="hero-tagline">嚴選合作品牌最新優惠，天天更新，幫你找到最值得入手的好物。</p>
+    <p class="hero-tagline">韓律的生活筆記｜記錄日常、風格與喜歡的事物</p>
     <ul class="trust-badges">
-      <li>🏅 真品保障：所有商品皆由品牌官方或授權通路提供</li>
-      <li>📦 多元選擇：涵蓋 3C家電、美食保健、服飾精品、旅遊票券等</li>
-      <li>✅ 安心購物：價格透明，優惠資訊定期整理，買得放心、用得安心</li>
+      <li>📷 日常穿搭與生活隨拍</li>
+      <li>✨ 喜歡的物品與生活好物</li>
+      <li>🍃 美好小事，值得慢慢享受</li>
     </ul>
     <div class="hero-actions">
-      <a class="hero-primary" href="#人氣優惠">立即逛人氣優惠</a>
-      <a class="hero-secondary" href="{facebook_page_url}" target="_blank" rel="noopener">追蹤 Facebook 粉絲頁</a>
+      <a class="hero-primary" href="#好物分享">看看最近喜歡的</a>
+      <a class="hero-secondary" href="{facebook_page_url}" target="_blank" rel="noopener">追蹤 Facebook</a>
     </div>
   </div>
-  <p class="updated">📅 最近整理時間：{now_str}</p>
+  <p class="updated">最近更新：{now_str}</p>
 </header>
 <nav class="cats">{cat_nav}</nav>
 <div class="main-wrap">
   <section class="host-card">
     <div class="host-avatar">{host_avatar}</div>
     <div>
-      <h3>大家好，我是 Masa</h3>
+      <h3>Hi~我是韓律 Han Ryul</h3>
       <p>
-        這裡整理的，都是我平常自己會留意的品牌優惠、好物與省錢情報。<br>
-        我希望你打開網站時，不用再花時間四處比價，而是直接看到值得先逛、先看的選擇。<br>
-        如果你也喜歡這種省時間、又能逛到好東西的整理方式，歡迎一起追蹤我的
-        <a href="{facebook_page_url}" target="_blank" rel="noopener">Facebook 粉絲頁</a>。
+        這裡是我的生活記錄——穿搭、喜歡的物品、隨手拍的日常，還有一些想說的話。<br>
+        沒有什麼特別的目的，就是把覺得美好的事留下來，順手分享給你。<br>
+        如果你也喜歡這類的生活感，歡迎來
+        <a href="{facebook_page_url}" target="_blank" rel="noopener">Facebook</a> 找我。
       </p>
-      <span class="soft-note">部分推薦內容屬合作推薦資訊，點進去的價格不會因此提高</span>
+      <span class="soft-note">部分商品連結含合作推薦，點擊後價格不會有任何變動</span>
     </div>
   </section>
   <main>
-    <div class="grid" id="人氣優惠">
+    <div class="grid" id="好物分享">
 {cards_html}
     </div>
   </main>
@@ -401,16 +403,35 @@ footer a{{color:#d61f69;font-weight:700}}
 </body>
 </html>"""
 
-        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        os.makedirs(LIFE_DIR, exist_ok=True)
         with open(HTML_FILE, "w", encoding="utf-8") as file_handle:
             file_handle.write(html)
-        print(f"[系統] 🌐 SEO HTML 已生成 → output/index.html")
+        print(f"[系統] 🌐 SEO HTML 已生成 → output/life/index.html")
+
+        # 根目錄 redirect → /life/
+        root_html = f"""<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=life/">
+<link rel="canonical" href="{site_url}">
+<title>韓律 Han Ryul</title>
+</head>
+<body>
+<script>window.location.replace("life/");</script>
+<a href="life/">前往韓律的生活頁</a>
+</body>
+</html>"""
+        root_html_path = os.path.join(OUTPUT_DIR, "index.html")
+        with open(root_html_path, "w", encoding="utf-8") as file_handle:
+            file_handle.write(root_html)
+        print(f"[系統] ↪️  根目錄 redirect 已生成 → output/index.html")
 
         sitemap_path = os.path.join(OUTPUT_DIR, "sitemap.xml")
         sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>{site_url}index.html</loc>
+    <loc>{site_url}</loc>
     <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
