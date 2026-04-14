@@ -164,7 +164,7 @@ def generate_html_page(records: list) -> None:
         now_str = datetime.now().strftime("%Y/%m/%d %H:%M")
         iso_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+08:00")
         site_url = "https://hanryul32.github.io/promo/life/"
-        facebook_page_url = "https://www.facebook.com/gogo.buy.it/"
+        facebook_page_url = "https://www.facebook.com/hanryul.daily/"
 
         category_colors = {
             "購物商城": "#e84876",

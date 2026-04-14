@@ -11,7 +11,7 @@ OUTPUT_DIR = os.path.join(BASE_DIR, "output")
 DRAFT_DIR = os.path.join(BASE_DIR, "drafts")
 IMAGES_DIR = os.path.join(BASE_DIR, "images", "hanryul")
 SITE_URL = "https://hanryul32.github.io/promo/life/"
-FACEBOOK_PAGE_URL = "https://www.facebook.com/gogo.buy.it/"
+FACEBOOK_PAGE_URL = "https://www.facebook.com/hanryul.daily/"
 FACEBOOK_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID", "")
 FACEBOOK_PAGE_ACCESS_TOKEN = os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", "")
 
@@ -121,24 +121,46 @@ def post_to_facebook(message):
         print("[Facebook] 未設定 PAGE_ID / ACCESS_TOKEN，已僅產生草稿")
         return False
 
-    image_path = pick_image()
+    # 優先：用 Gemini Imagen 3 自動生成情境照片
+    image_bytes, image_mime = None, None
+    try:
+        from auto_generate_image import generate_image
+        image_bytes, image_mime = generate_image()
+    except Exception as e:
+        print(f"[ImageGen] 略過自動生成: {e}")
 
-    if image_path and os.path.exists(image_path):
-        # 使用 /photos 端點上傳圖片貼文
+    if image_bytes:
+        # 使用 /photos 端點上傳 AI 生成圖片
         url = f"https://graph.facebook.com/v22.0/{FACEBOOK_PAGE_ID}/photos"
-        print(f"[Facebook] 附上圖片: {os.path.basename(image_path)}")
-        with open(image_path, "rb") as img_file:
-            mime = "image/png" if image_path.lower().endswith(".png") else "image/jpeg"
-            resp = requests.post(
-                url,
-                data={
-                    "message": message,
-                    "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
-                },
-                files={"source": (os.path.basename(image_path), img_file, mime)},
-                timeout=60,
-            )
+        print("[Facebook] 附上 AI 生成照片")
+        import io
+        resp = requests.post(
+            url,
+            data={
+                "message": message,
+                "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
+            },
+            files={"source": ("hanryul_daily.png", io.BytesIO(image_bytes), image_mime)},
+            timeout=90,
+        )
     else:
+        # Fallback：本機輪播照片
+        image_path = pick_image()
+        if image_path and os.path.exists(image_path):
+            url = f"https://graph.facebook.com/v22.0/{FACEBOOK_PAGE_ID}/photos"
+            print(f"[Facebook] 附上本機照片: {os.path.basename(image_path)}")
+            with open(image_path, "rb") as img_file:
+                mime = "image/png" if image_path.lower().endswith(".png") else "image/jpeg"
+                resp = requests.post(
+                    url,
+                    data={
+                        "message": message,
+                        "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
+                    },
+                    files={"source": (os.path.basename(image_path), img_file, mime)},
+                    timeout=60,
+                )
+        else:
         # 無圖片：純文字 + 連結
         url = f"https://graph.facebook.com/v22.0/{FACEBOOK_PAGE_ID}/feed"
         resp = requests.post(
