@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="韓律網站 GA4 看板：即時瀏覽、入口來源、優惠點擊率三大指標。">
+<title>韓律 GA4 看板 | 三大指標</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PEJS9NJ9QR"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-PEJS9NJ9QR');
+</script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:'Noto Sans TC',system-ui,sans-serif;background:linear-gradient(180deg,#f8fbff,#f5f7ff);color:#0f172a}
+header{padding:2.2rem 1rem;background:linear-gradient(135deg,#0ea5e9,#2563eb);color:#fff}
+header h1{margin:.2rem 0 .5rem;font-size:clamp(1.5rem,4vw,2.1rem)}
+header p{margin:0;opacity:.95}
+.wrap{max-width:1100px;margin:0 auto;padding:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem}
+.card{background:#fff;border:1px solid #dbe6ff;border-radius:16px;padding:1rem 1rem 1.1rem;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+.card h2{margin:.2rem 0 .5rem;font-size:1.08rem}
+.desc{font-size:.92rem;color:#475569;line-height:1.75}
+.metric{display:inline-block;margin:.7rem 0;padding:.28rem .65rem;border-radius:999px;background:#eaf2ff;color:#1d4ed8;font-size:.78rem;font-weight:700}
+.steps{margin:.6rem 0 0;padding-left:1.1rem;color:#334155;font-size:.9rem;line-height:1.75}
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.btn{display:inline-block;padding:.6rem .85rem;border-radius:10px;font-weight:700;font-size:.86rem;text-decoration:none}
+.btn-main{background:#2563eb;color:#fff}
+.btn-sub{background:#f1f5f9;color:#0f172a}
+.notice{margin-top:1rem;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:12px;padding:.8rem .9rem;font-size:.87rem;line-height:1.7}
+footer{padding:1.8rem 1rem 2.2rem;text-align:center;color:#64748b;font-size:.82rem}
+code{background:#f1f5f9;padding:.12rem .35rem;border-radius:6px}
+</style>
+</head>
+<body>
+<header>
+    <div class="wrap">
+        <h1>GA4 看板：3 大核心指標</h1>
+        <p>最近更新：2026/04/27 23:33｜追蹤 ID：G-PEJS9NJ9QR</p>
+    </div>
+</header>
+<main class="wrap">
+    <div class="grid">
+        <section class="card">
+            <span class="metric">指標 1</span>
+            <h2>即時瀏覽數（Realtime）</h2>
+            <p class="desc">觀察現在同時在線人數，快速知道貼文剛發出去是否有流量進站。</p>
+            <ol class="steps">
+                <li>打開 GA4「報表」→「即時」</li>
+                <li>主要看「過去 30 分鐘使用者」</li>
+                <li>搭配地區與頁面路徑，確認是否進到 <code>/promo/life/</code></li>
+            </ol>
+        </section>
+        <section class="card">
+            <span class="metric">指標 2</span>
+            <h2>入口來源（Traffic Source）</h2>
+            <p class="desc">看流量是來自 Facebook、LINE、搜尋或直接輸入，決定下一波發文主力平台。</p>
+            <ol class="steps">
+                <li>GA4「報表」→「獲客」→「流量開發」</li>
+                <li>主要維度：<code>Session source / medium</code></li>
+                <li>若有 UTM，來源會更清楚（如 <code>line / group</code>）</li>
+            </ol>
+        </section>
+        <section class="card">
+            <span class="metric">指標 3</span>
+            <h2>優惠點擊率（CTR）</h2>
+            <p class="desc">本站已埋事件 <code>select_promo_link</code>，可衡量每一波流量的實際點擊意圖。</p>
+            <ol class="steps">
+                <li>GA4「探索」建立自由格式報表</li>
+                <li>篩選事件名稱：<code>select_promo_link</code></li>
+                <li>CTR 建議公式：<code>select_promo_link / page_view</code></li>
+            </ol>
+        </section>
+    </div>
+    <div class="actions">
+        <a class="btn btn-main" target="_blank" rel="noopener" href="https://analytics.google.com/">前往 GA4 後台</a>
+        <a class="btn btn-sub" href="../">返回首頁</a>
+    </div>
+    <div class="notice">
+        小提醒：此頁為「看板視角導覽」。實際數值以 GA4 後台即時資料為準。
+        若要自動顯示真實數字在網站上，需要額外串接 GA Data API 與 OAuth 授權服務。
+    </div>
+</main>
+<footer>
+    <p>韓律 Han Ryul · GA4 Dashboard View</p>
+</footer>
+</body>
+</html>

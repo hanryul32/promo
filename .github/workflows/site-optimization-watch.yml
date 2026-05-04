@@ -1,0 +1,97 @@
+name: Site Optimization Watch
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate key pages and freshness
+        id: check
+        shell: bash
+        continue-on-error: true
+        run: |
+          set +e
+          : > watch.log
+
+          echo "== required files ==" | tee -a watch.log
+          test -f life/index.html 2>&1 | tee -a watch.log
+          file_status=${PIPESTATUS[0]}
+          test -f life/en/index.html 2>&1 | tee -a watch.log
+          en_file_status=${PIPESTATUS[0]}
+
+          echo "== sitemap coverage ==" | tee -a watch.log
+          grep -q "https://hanryul32.github.io/promo/life/en/" sitemap.xml 2>&1 | tee -a watch.log
+          sitemap_status=${PIPESTATUS[0]}
+
+          echo "== live endpoint ==" | tee -a watch.log
+          curl --fail --location --max-time 30 --silent --show-error https://hanryul32.github.io/promo/life/ > /tmp/life.html 2>> watch.log
+          live_status=$?
+          if [ "$live_status" -eq 0 ]; then
+            wc -c /tmp/life.html | tee -a watch.log
+          fi
+
+          echo "== freshness ==" | tee -a watch.log
+          now=$(date +%s)
+          last=$(git log -1 --format=%ct -- life/index.html)
+          age_days=$(( (now - last) / 86400 ))
+          echo "life/index.html age_days=${age_days}" | tee -a watch.log
+
+          stale_status=0
+          if [ "$age_days" -gt 14 ]; then
+            echo "stale=true" | tee -a watch.log
+            stale_status=1
+          fi
+
+          if [ "$file_status" -ne 0 ] || [ "$en_file_status" -ne 0 ] || [ "$sitemap_status" -ne 0 ] || [ "$live_status" -ne 0 ] || [ "$stale_status" -ne 0 ]; then
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+          echo "failed=false" >> "$GITHUB_OUTPUT"
+
+      - name: Upload watch log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-optimization-watch-log
+          path: watch.log
+
+      - name: Open or update issue when anomalies found
+        if: steps.check.outcome == 'failure' || steps.check.outputs.failed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.existsSync('watch.log') ? fs.readFileSync('watch.log', 'utf8').slice(-6000) : '(no log)';
+            const labels = ['site-optimization', 'automated-maintenance'];
+            for (const name of labels) {
+              try {
+                await github.rest.issues.createLabel({owner: context.repo.owner, repo: context.repo.repo, name, color: name === 'site-optimization' ? '1d76db' : '0e8a16'});
+              } catch (error) {
+                if (error.status !== 422) throw error;
+              }
+            }
+
+            const title = 'Site optimization watch: action required';
+            const existing = await github.rest.issues.listForRepo({owner: context.repo.owner, repo: context.repo.repo, state: 'open', labels: 'site-optimization', per_page: 50});
+            const body = `Automated site watch detected an issue that may impact conversion, SEO, or freshness.\n\nRun: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\n\`\`\`text\n${log}\n\`\`\``;
+            const issue = existing.data.find(item => item.title === title);
+            if (issue) {
+              await github.rest.issues.createComment({owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number, body});
+            } else {
+              await github.rest.issues.create({owner: context.repo.owner, repo: context.repo.repo, title, body, labels});
+            }

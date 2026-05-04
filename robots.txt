@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hanryul32.github.io/promo/sitemap.xml
