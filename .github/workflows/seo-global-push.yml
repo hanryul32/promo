@@ -37,23 +37,50 @@ jobs:
             git push
           }
 
-      - name: Ping Google Search Console
+      - name: Submit via IndexNow (Bing + Yandex + others)
+        env:
+          INDEXNOW_KEY: 7a4050a3180441c7b7f8a30c2210e11c
         run: |
-          SITEMAP="https://hanryul32.github.io/promo/sitemap.xml"
-          FEED="https://hanryul32.github.io/promo/feed.xml"
-          echo "Pinging Google..."
-          curl -s -o /dev/null -w "Google ping status: %{http_code}\n" \
-            "https://www.google.com/ping?sitemap=${SITEMAP}" || true
-          echo "Pinging Google RSS..."
-          curl -s -o /dev/null -w "Google RSS ping status: %{http_code}\n" \
-            "https://www.google.com/ping?sitemap=${FEED}" || true
+          echo "Submitting URLs via IndexNow..."
+          PAYLOAD=$(cat <<'EOF'
+          {
+            "host": "hanryul32.github.io",
+            "key": "7a4050a3180441c7b7f8a30c2210e11c",
+            "keyLocation": "https://hanryul32.github.io/promo/7a4050a3180441c7b7f8a30c2210e11c.txt",
+            "urlList": [
+              "https://hanryul32.github.io/promo/life/",
+              "https://hanryul32.github.io/promo/life/ko/",
+              "https://hanryul32.github.io/promo/life/en/",
+              "https://hanryul32.github.io/promo/sitemap.xml",
+              "https://hanryul32.github.io/promo/feed.xml"
+            ]
+          }
+          EOF
+          )
+          STATUS=$(curl -s -o /tmp/indexnow_resp.txt -w "%{http_code}" \
+            -X POST "https://api.indexnow.org/IndexNow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$PAYLOAD" --max-time 20) || STATUS="timeout"
+          echo "IndexNow API status: $STATUS"
+          cat /tmp/indexnow_resp.txt || true
 
-      - name: Ping Bing Webmaster
+          # Also submit to Bing directly
+          STATUS_BING=$(curl -s -o /tmp/bing_resp.txt -w "%{http_code}" \
+            -X POST "https://www.bing.com/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$PAYLOAD" --max-time 20) || STATUS_BING="timeout"
+          echo "Bing IndexNow status: $STATUS_BING"
+
+      - name: Ping Google via RSS autodiscovery
         run: |
-          SITEMAP="https://hanryul32.github.io/promo/sitemap.xml"
-          echo "Pinging Bing..."
-          curl -s -o /dev/null -w "Bing ping status: %{http_code}\n" \
-            "https://www.bing.com/ping?sitemap=${SITEMAP}" || true
+          FEED="https://hanryul32.github.io/promo/feed.xml"
+          echo "Notifying Google via Feedburner-compatible ping..."
+          curl -s -o /dev/null -w "Google Blog ping: %{http_code}\n" \
+            "https://blogsearch.google.com/ping/RPC2" \
+            --data-urlencode "name=Han Ryul Life" \
+            --data-urlencode "url=https://hanryul32.github.io/promo/life/" \
+            --data-urlencode "changesURL=$FEED" \
+            --max-time 10 || true
 
       - name: Verify live site health
         run: |
@@ -79,6 +106,6 @@ jobs:
           echo "| Item | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
           echo "| Sitemap lastmod | Updated to $(date -u +%Y-%m-%d) |" >> $GITHUB_STEP_SUMMARY
-          echo "| Google ping | Sent |" >> $GITHUB_STEP_SUMMARY
-          echo "| Bing ping | Sent |" >> $GITHUB_STEP_SUMMARY
+          echo "| IndexNow (Bing/Yandex) | Submitted 5 URLs |" >> $GITHUB_STEP_SUMMARY
+          echo "| Google RSS ping | Sent |" >> $GITHUB_STEP_SUMMARY
           echo "| Site URL | [hanryul32.github.io/promo/life/](https://hanryul32.github.io/promo/life/) |" >> $GITHUB_STEP_SUMMARY
