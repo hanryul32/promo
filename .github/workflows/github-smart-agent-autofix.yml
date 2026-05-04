@@ -1,0 +1,186 @@
+name: GitHub Smart Agent AutoFix
+
+on:
+  schedule:
+    - cron: "41 */4 * * *"
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - GitHub Smart Agent
+      - Site Optimization Watch
+    types:
+      - completed
+
+permissions:
+  contents: write
+  issues: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: github-smart-agent-autofix
+  cancel-in-progress: true
+
+jobs:
+  autofix:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply safe automatic fixes
+        id: fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed=0
+          : > autofix.log
+
+          echo "== ensure required files ==" | tee -a autofix.log
+          if [ ! -f robots.txt ]; then
+            cat > robots.txt <<'EOF'
+User-agent: *
+Allow: /
+Sitemap: https://hanryul32.github.io/promo/sitemap.xml
+EOF
+            changed=1
+            echo "created robots.txt" | tee -a autofix.log
+          fi
+
+          if ! grep -q "Sitemap: https://hanryul32.github.io/promo/sitemap.xml" robots.txt; then
+            echo "Sitemap: https://hanryul32.github.io/promo/sitemap.xml" >> robots.txt
+            changed=1
+            echo "appended sitemap line to robots.txt" | tee -a autofix.log
+          fi
+
+          if [ ! -f sitemap.xml ]; then
+            cat > sitemap.xml <<'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://hanryul32.github.io/promo/</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://hanryul32.github.io/promo/life/</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://hanryul32.github.io/promo/life/en/</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
+EOF
+            changed=1
+            echo "created sitemap.xml" | tee -a autofix.log
+          fi
+
+          if ! grep -q "https://hanryul32.github.io/promo/life/en/" sitemap.xml; then
+            awk '
+              /<\/urlset>/ && !done {
+                print "  <url>"
+                print "    <loc>https://hanryul32.github.io/promo/life/en/</loc>"
+                print "    <lastmod>2026-05-05</lastmod>"
+                print "    <changefreq>weekly</changefreq>"
+                print "    <priority>0.8</priority>"
+                print "  </url>"
+                done=1
+              }
+              { print }
+            ' sitemap.xml > sitemap.tmp && mv sitemap.tmp sitemap.xml
+            changed=1
+            echo "added missing life/en url to sitemap.xml" | tee -a autofix.log
+          fi
+
+          if [ ! -f life/en/index.html ]; then
+            mkdir -p life/en
+            cat > life/en/index.html <<'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Han Ryul global picks and weekly curated comparisons.">
+<link rel="canonical" href="https://hanryul32.github.io/promo/life/en/">
+<title>Han Ryul Global Picks</title>
+</head>
+<body>
+<main>
+  <h1>Han Ryul Global Picks</h1>
+  <p>This page was auto-restored by GitHub Smart Agent AutoFix.</p>
+  <p><a href="../">Open the main page</a></p>
+</main>
+</body>
+</html>
+EOF
+            changed=1
+            echo "restored life/en/index.html" | tee -a autofix.log
+          fi
+
+          if [ -f life/index.html ] && ! grep -q 'hreflang="en"' life/index.html; then
+            awk '
+              /<link rel="canonical"/ && !done {
+                print
+                print "<link rel=\"alternate\" hreflang=\"en\" href=\"https://hanryul32.github.io/promo/life/en/\">"
+                done=1
+                next
+              }
+              { print }
+            ' life/index.html > life/index.tmp && mv life/index.tmp life/index.html
+            changed=1
+            echo "added hreflang en link to life/index.html" | tee -a autofix.log
+          fi
+
+          echo "changed=${changed}" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push fixes
+        if: steps.fix.outputs.changed == '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add robots.txt sitemap.xml life/index.html life/en/index.html
+          git commit -m "chore(agent): auto-fix site health anomalies"
+          git push
+
+      - name: Upload autofix log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-smart-agent-autofix-log
+          path: autofix.log
+
+      - name: Open issue when no safe fix available
+        if: steps.fix.outputs.changed == '0' && github.event_name == 'workflow_run'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = ['github-smart-agent', 'manual-review-needed'];
+            for (const name of labels) {
+              try {
+                await github.rest.issues.createLabel({owner: context.repo.owner, repo: context.repo.repo, name, color: name === 'github-smart-agent' ? '5319e7' : 'd93f0b'});
+              } catch (error) {
+                if (error.status !== 422) throw error;
+              }
+            }
+            const title = 'Smart Agent AutoFix: manual intervention required';
+            const existing = await github.rest.issues.listForRepo({owner: context.repo.owner, repo: context.repo.repo, state: 'open', labels: 'manual-review-needed', per_page: 50});
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = `AutoFix ran after a failed health workflow but found no safe deterministic patch to apply.\n\nPlease review the failing run and repair manually.\n\nRun: ${runUrl}`;
+            const issue = existing.data.find(item => item.title === title);
+            if (issue) {
+              await github.rest.issues.createComment({owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number, body});
+            } else {
+              await github.rest.issues.create({owner: context.repo.owner, repo: context.repo.repo, title, body, labels});
+            }

@@ -36,11 +36,18 @@ jobs:
           test -f README.md 2>&1 | tee -a health.log
           readme_status=${PIPESTATUS[0]}
 
-          echo "== gh-pages branch ==" | tee -a health.log
-          git fetch origin gh-pages --depth=1 2>&1 | tee -a health.log
+          echo "== pages source branch ==" | tee -a health.log
+          default_branch="${{ github.event.repository.default_branch }}"
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            pages_branch="gh-pages"
+          else
+            pages_branch="$default_branch"
+          fi
+          echo "pages_branch=${pages_branch}" | tee -a health.log
+          git fetch origin "${pages_branch}" --depth=1 2>&1 | tee -a health.log
           fetch_status=${PIPESTATUS[0]}
           if [ "$fetch_status" -eq 0 ]; then
-            git ls-tree -r --name-only origin/gh-pages | head -50 2>&1 | tee -a health.log
+            git ls-tree -r --name-only "origin/${pages_branch}" | head -50 2>&1 | tee -a health.log
           fi
 
           echo "== live Pages endpoint ==" | tee -a health.log
