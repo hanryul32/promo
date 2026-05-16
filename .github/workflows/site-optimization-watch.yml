@@ -34,12 +34,33 @@ jobs:
           en_file_status=${PIPESTATUS[0]}
 
           echo "== sitemap coverage ==" | tee -a watch.log
-          grep -q "https://hanryul32.github.io/promo/life/en/" sitemap.xml 2>&1 | tee -a watch.log
+          cname_domain=$(sed -e '1s/^\xEF\xBB\xBF//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' CNAME 2>/dev/null)
+          fallback_url="https://hanryul32.github.io/promo/life/"
+          if [ -n "$cname_domain" ]; then
+            grep -q "https://${cname_domain}/life/en/" sitemap.xml 2>&1 | tee -a watch.log
+          else
+            grep -q "https://hanryul32.github.io/promo/life/en/" sitemap.xml 2>&1 | tee -a watch.log
+          fi
           sitemap_status=${PIPESTATUS[0]}
+          if [ "$sitemap_status" -ne 0 ] && [ -n "$cname_domain" ]; then
+            grep -q "https://hanryul32.github.io/promo/life/en/" sitemap.xml 2>&1 | tee -a watch.log
+            sitemap_status=${PIPESTATUS[0]}
+          fi
 
           echo "== live endpoint ==" | tee -a watch.log
-          curl --fail --location --max-time 30 --silent --show-error https://hanryul32.github.io/promo/life/ > /tmp/life.html 2>> watch.log
+          if [ -n "$cname_domain" ]; then
+            primary_url="https://${cname_domain}/life/"
+          else
+            primary_url="https://hanryul32.github.io/promo/life/"
+          fi
+          echo "primary_url=${primary_url}" | tee -a watch.log
+          curl --fail --location --max-time 30 --silent --show-error "$primary_url" > /tmp/life.html 2>> watch.log
           live_status=$?
+          if [ "$live_status" -ne 0 ] && [ "$primary_url" != "$fallback_url" ]; then
+            echo "fallback_url=${fallback_url}" | tee -a watch.log
+            curl --fail --location --max-time 30 --silent --show-error "$fallback_url" > /tmp/life.html 2>> watch.log
+            live_status=$?
+          fi
           if [ "$live_status" -eq 0 ]; then
             wc -c /tmp/life.html | tee -a watch.log
           fi

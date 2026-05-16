@@ -51,8 +51,21 @@ jobs:
           fi
 
           echo "== live Pages endpoint ==" | tee -a health.log
-          curl --fail --location --max-time 30 --silent --show-error https://hanryul32.github.io/promo/life/ > /tmp/promo_life.html 2>> health.log
+          cname_domain=$(sed -e '1s/^\xEF\xBB\xBF//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' CNAME 2>/dev/null)
+          if [ -n "$cname_domain" ]; then
+            primary_url="https://${cname_domain}/life/"
+          else
+            primary_url="https://hanryul32.github.io/promo/life/"
+          fi
+          fallback_url="https://hanryul32.github.io/promo/life/"
+          echo "primary_url=${primary_url}" | tee -a health.log
+          curl --fail --location --max-time 30 --silent --show-error "$primary_url" > /tmp/promo_life.html 2>> health.log
           curl_status=$?
+          if [ "$curl_status" -ne 0 ] && [ "$primary_url" != "$fallback_url" ]; then
+            echo "fallback_url=${fallback_url}" | tee -a health.log
+            curl --fail --location --max-time 30 --silent --show-error "$fallback_url" > /tmp/promo_life.html 2>> health.log
+            curl_status=$?
+          fi
           if [ "$curl_status" -eq 0 ]; then
             wc -c /tmp/promo_life.html | tee -a health.log
           fi
