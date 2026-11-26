@@ -31,45 +31,59 @@ class Campaign:
 
 CAMPAIGNS: list[Campaign] = [
     Campaign(
-        name="奕心生醫科技",
-        audience_score=95,
+        name="酷澎 Coupang",
+        audience_score=98,
         candidates=[
+            "https://dreamstore.info/3abxu",
+        ],
+        known_urls=[
+            "https://dreamstore.info/3abxu",
+            "https://www.ichannels.com.tw/ch-coupang?ic=af000094185&uid=ich-9611&utm_source=facebook_page&utm_medium=owned_media&utm_campaign=ich-9611_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
+        ],
+    ),
+    Campaign(
+        name="Airalo Global eSIM",
+        audience_score=96,
+        candidates=[
+            "https://idragon.info/3abxv",
+        ],
+        known_urls=[
+            "https://idragon.info/3abxv",
+            "https://www.airalo.com/?ic=af000094185&uid=airalo%E5%85%A8%E7%90%83esim-c013&utm_source=seo_blog&utm_medium=owned_media&utm_campaign=C013_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
+        ],
+    ),
+    Campaign(
+        name="奕心生醫科技",
+        audience_score=94,
+        candidates=[
+            "https://igamepark.biz/3QYis",
+        ],
+        known_urls=[
+            "https://igamepark.biz/3QYis",
             "https://www.ichannels.com.tw/ch-trueheartbio?ic=af000094185&uid=ich-9495&utm_source=line_group&utm_medium=owned_media&utm_campaign=ich-9495_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
             "https://www.trueheartbio.com.tw/?utm_source=hanryul32&utm_medium=referral&utm_campaign=promo_life_temp",
         ],
+    ),
+    Campaign(
+        name="台灣樂天市場",
+        audience_score=90,
+        candidates=[
+            "https://greenmall.info/3abxr",
+        ],
         known_urls=[
-            "https://www.ichannels.com.tw/ch-trueheartbio?ic=af000094185&uid=ich-9495&utm_source=line_group&utm_medium=owned_media&utm_campaign=ich-9495_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
-            "https://www.trueheartbio.com.tw/?utm_source=hanryul32&utm_medium=referral&utm_campaign=promo_life_temp",
+            "https://greenmall.info/3abxr",
+            "https://www.rakuten.com.tw/?ic=af000094185&uid=%E5%8F%B0%E7%81%A3%E6%A8%82%E5%A4%A9%E5%B8%82%E5%A0%B4-c044&utm_source=facebook_page&utm_medium=owned_media&utm_campaign=C044_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
         ],
     ),
     Campaign(
         name="佳瑪大罩杯內衣",
         audience_score=78,
         candidates=[
+            "https://iorange.biz/3abyH",
+        ],
+        known_urls=[
+            "https://iorange.biz/3abyH",
             "https://www.ichannels.com.tw/ch-jama?ic=af000094185&uid=ich-9848&utm_source=facebook_page&utm_medium=owned_media&utm_campaign=ich-9848_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
-        ],
-        known_urls=[
-            "https://www.ichannels.com.tw/ch-jama?ic=af000094185&uid=ich-9848&utm_source=facebook_page&utm_medium=owned_media&utm_campaign=ich-9848_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
-        ],
-    ),
-    Campaign(
-        name="潮霖資產",
-        audience_score=58,
-        candidates=[
-            "https://www.ichannels.com.tw/ch-chaolin?ic=af000094185&uid=ich-7744&utm_source=seo_blog&utm_medium=owned_media&utm_campaign=ich-7744_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
-        ],
-        known_urls=[
-            "https://www.ichannels.com.tw/ch-chaolin?ic=af000094185&uid=ich-7744&utm_source=seo_blog&utm_medium=owned_media&utm_campaign=ich-7744_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
-        ],
-    ),
-    Campaign(
-        name="酷澎 Coupang",
-        audience_score=88,
-        candidates=[
-            "https://www.ichannels.com.tw/ch-coupang?ic=af000094185&uid=ich-9611&utm_source=facebook_page&utm_medium=owned_media&utm_campaign=ich-9611_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
-        ],
-        known_urls=[
-            "https://www.ichannels.com.tw/ch-coupang?ic=af000094185&uid=ich-9611&utm_source=facebook_page&utm_medium=owned_media&utm_campaign=ich-9611_%E9%80%A3%E5%81%87%E5%87%BA%E9%81%8A%E8%88%87%E6%98%A5%E5%AD%A3%E4%BF%9D%E9%A4%8A",
         ],
     ),
 ]
