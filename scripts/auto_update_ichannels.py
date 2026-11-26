@@ -89,20 +89,28 @@ CAMPAIGNS: list[Campaign] = [
 ]
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
 def check_url(url: str, timeout: float = 10.0) -> tuple[bool, int, str]:
     req = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
         },
     )
+    opener = urllib.request.build_opener(_NoRedirect)
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        with opener.open(req, timeout=timeout) as resp:
             code = int(getattr(resp, "status", 200))
-            final_url = resp.geturl()
-            return code < 400, code, final_url
+            return code < 400, code, resp.geturl()
     except urllib.error.HTTPError as e:
-        return False, int(e.code), url
+        code = int(e.code)
+        if code in (301, 302, 303, 307, 308):
+            return True, code, e.headers.get("Location", url)
+        return False, code, url
     except Exception:
         return False, 0, url
 
