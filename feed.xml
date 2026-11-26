@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>韓律 Han Ryul | 生活美學日常分享</title>
+    <title>韓律 Han Ryul｜台北質感生活與聰明省錢筆記</title>
     <link>https://hanryul32.github.io/promo/life/</link>
-    <description>探索韓律的早餐美學、街頭散步與居家細節，找回生活美好。精選旅遊好物、生活選品與韓國日常分享。</description>
+    <description>30歲台北都會質感生活與理性消費筆記：精選酷澎火箭速配、ShopBack 現金回饋、日韓旅遊 eSIM、日常營養補給與居家選物比較清單。</description>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 05 May 2026 00:00:00 +0800</lastBuildDate>
-    <managingEditor>hanryul32@gmail.com (韓律 Han Ryul)</managingEditor>
+    <lastBuildDate>Thu, 26 Nov 2026 22:40:00 +0800</lastBuildDate>
     <copyright>© 2026 韓律 Han Ryul</copyright>
     <image>
       <url>https://hanryul32.github.io/promo/life/avatar.png</url>
@@ -15,49 +14,54 @@
     </image>
     <atom:link href="https://hanryul32.github.io/promo/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>本週精選：旅遊優惠 x 生活好物 TOP 推薦（2026/05）</title>
-      <link>https://hanryul32.github.io/promo/life/#休閒旅遊</link>
-      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/#travel-2026-05</guid>
-      <pubDate>Mon, 05 May 2026 08:00:00 +0800</pubDate>
-      <description>Klook、KKday、Agoda 限時優惠一次整理，韓國日常旅行靈感推薦，附早鳥折扣連結。</description>
-      <category>旅遊</category>
-      <category>lifestyle</category>
+      <title>2026 台北上班族補貨省錢術：酷澎火箭速配與台灣樂天疊加攻略</title>
+      <link>https://hanryul32.github.io/promo/life/shopping/?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=shopping-2026-11</link>
+      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/shopping/#coupang-2026-11</guid>
+      <pubDate>Thu, 26 Nov 2026 22:30:00 +0800</pubDate>
+      <description>下班懶得扛衛生紙與日用品？整理酷澎 Coupang 火箭速配、台灣樂天市場點數疊加、i3Fresh 生鮮備餐與 HOLA 質感家居比較重點，結帳前先核對免運與優惠門檻不買貴。</description>
+      <enclosure url="https://hanryul32.github.io/promo/life/avatar.png" length="2475140" type="image/png"/>
+      <category>網購優惠</category>
+      <category>質感生活</category>
     </item>
     <item>
-      <title>居家美學靈感：韓律推薦的生活選品（2026/05）</title>
-      <link>https://hanryul32.github.io/promo/life/#購物商城</link>
-      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/#home-2026-05</guid>
-      <pubDate>Mon, 05 May 2026 08:00:00 +0800</pubDate>
-      <description>momo、蝦皮、博客來精選好物，早餐美學與居家靈感推薦，minimalist home ideas。</description>
-      <category>居家</category>
-      <category>生活美學</category>
+      <title>結帳前多這一步年省好幾千：ShopBack 現金回饋攻略（邀請碼 8p7aG1 新戶 $100）</title>
+      <link>https://hanryul32.github.io/promo/life/shopping/?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=shopback-2026-11</link>
+      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/shopping/#shopback-2026-11</guid>
+      <pubDate>Thu, 26 Nov 2026 22:20:00 +0800</pubDate>
+      <description>平常逛 Olive Young、酷澎與旅遊訂房前先領任務再跳轉，回饋可直接提領現金。透過專屬邀請碼 8p7aG1 註冊完成任務享新戶現金獎勵（依官方活動規則為準）。</description>
+      <enclosure url="https://hanryul32.github.io/promo/life/avatar.png" length="2475140" type="image/png"/>
+      <category>省錢筆記</category>
+      <category>現金回饋</category>
     </item>
     <item>
-      <title>金融理財入門：信用卡 x 個人貸款最佳方案比較（2026/05）</title>
-      <link>https://hanryul32.github.io/promo/life/credit-cards/</link>
-      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/credit-cards/#2026-05</guid>
-      <pubDate>Mon, 05 May 2026 08:00:00 +0800</pubDate>
-      <description>花旗、HSBC、Money101 信用卡與貸款方案整理，幫你找到最划算的金融選擇。</description>
-      <category>金融理財</category>
-      <category>信用卡</category>
+      <title>2026 日韓自由行免換卡上網比較：Airalo 與 World eSIM 挑選清單</title>
+      <link>https://hanryul32.github.io/promo/life/travel/?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=travel-2026-11</link>
+      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/travel/#esim-2026-11</guid>
+      <pubDate>Thu, 26 Nov 2026 22:10:00 +0800</pubDate>
+      <description>不用機場排隊租 WiFi 機也不怕弄丟台灣 SIM 卡！整理 Airalo 全球 eSIM 與 World eSIM 方案挑選 3 大標準，保留原門號收刷卡簡訊、落地即連線。</description>
+      <enclosure url="https://hanryul32.github.io/promo/life/avatar.png" length="2475140" type="image/png"/>
+      <category>旅遊上網</category>
+      <category>eSIM比較</category>
     </item>
     <item>
-      <title>保健醫療：奕心生醫 x 白蘭氏 全台最夯保健推薦（2026/05）</title>
-      <link>https://hanryul32.github.io/promo/life/health/</link>
-      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/health/#2026-05</guid>
-      <pubDate>Mon, 05 May 2026 08:00:00 +0800</pubDate>
-      <description>醫師推薦保健食品精選，奕心生醫草本系列、白蘭氏限時回饋，健康從日常開始。</description>
-      <category>保健</category>
-      <category>健康</category>
+      <title>30歲上班族日常營養補給筆記：奕心生醫優惠碼 ichannel26100 與統一生機選購標準</title>
+      <link>https://hanryul32.github.io/promo/life/health/?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=health-2026-11</link>
+      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/health/#wellness-2026-11</guid>
+      <pubDate>Thu, 26 Nov 2026 22:00:00 +0800</pubDate>
+      <description>外食族與久坐上班族挑選日常補給與有機輕食的 3 個理性標準：成分透明度、每日單價換算與專屬優惠碼（奕心生醫結帳輸入 ichannel26100）。本整理僅供日常資訊參考，不取代專業醫療建議。</description>
+      <enclosure url="https://hanryul32.github.io/promo/life/avatar.png" length="2475140" type="image/png"/>
+      <category>日常補給</category>
+      <category>有機輕食</category>
     </item>
     <item>
-      <title>Lifestyle Aesthetics: Top Life Picks from Han Ryul (May 2026)</title>
-      <link>https://hanryul32.github.io/promo/life/en/</link>
-      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/en/#2026-05</guid>
-      <pubDate>Mon, 05 May 2026 08:00:00 +0800</pubDate>
-      <description>Discover Han Ryul's top travel deals, wellness picks, and minimalist home ideas for May 2026. Korean daily life aesthetics curated for global readers.</description>
-      <category>lifestyle aesthetics</category>
-      <category>minimalist living</category>
+      <title>2026 日常消費與網購回饋卡整理：30歲上班族極簡雙卡精算邏輯</title>
+      <link>https://hanryul32.github.io/promo/life/credit-cards/?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=cards-2026-11</link>
+      <guid isPermaLink="true">https://hanryul32.github.io/promo/life/credit-cards/#cards-2026-11</guid>
+      <pubDate>Thu, 26 Nov 2026 21:50:00 +0800</pubDate>
+      <description>整理行動支付、網購與海外旅遊信用卡回饋門檻與上限比較重點。謹慎理財信用無價，實際權益依各銀行官網最新公告為準。</description>
+      <enclosure url="https://hanryul32.github.io/promo/life/avatar.png" length="2475140" type="image/png"/>
+      <category>信用卡比較</category>
+      <category>聰明消費</category>
     </item>
   </channel>
 </rss>
