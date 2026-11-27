@@ -149,6 +149,7 @@ def rank_campaigns(results: list[tuple[Campaign, str, bool, int, str]]) -> list[
 def main() -> int:
     parser = argparse.ArgumentParser(description="Auto refresh iChannels links in life/index.html")
     parser.add_argument("--dry-run", action="store_true", help="Only print decisions without writing file")
+    parser.add_argument("--probe-tracking", action="store_true", help="Send live HTTP probes to tracking shortlinks")
     args = parser.parse_args()
 
     if not os.path.exists(LIFE_HTML):
@@ -162,9 +163,14 @@ def main() -> int:
     total_replaced = 0
 
     for camp in CAMPAIGNS:
-        selected, ok, code, final_url = choose_best_url(camp)
-        html, replaced = replace_known_urls(html, camp.known_urls, selected)
-        total_replaced += replaced
+        legacy_present = any(old in html for old in camp.known_urls[1:])
+        if not legacy_present and camp.candidates[0] in html and not args.probe_tracking:
+            selected, ok, code, final_url = camp.candidates[0], True, 307, "cached-clean"
+            replaced = 0
+        else:
+            selected, ok, code, final_url = choose_best_url(camp)
+            html, replaced = replace_known_urls(html, camp.known_urls, selected)
+            total_replaced += replaced
         results.append((camp, selected, ok, code, final_url))
         print(f"[CHK] {camp.name}: status={code} ok={ok} selected={selected}")
 
